@@ -14,7 +14,7 @@ namespace Lab4Vitali
         public bool FinDia;
         public int Memoria;
         public string Nombre;
-        public List<string> Registro = new List<string>();
+        
 
 
         public string Encendido_Maquina(string maquina)
@@ -284,6 +284,148 @@ namespace Lab4Vitali
             else
             {
                 Console.WriteLine("Maquina " + ensamblaje.Nombre + " esta Apagada, ha sido imposible enviar las piezas a Verificar");
+                return " ";
+            }
+        }
+    }
+    public class Verificacion: Computador
+    {
+        public int Piezas_Verificadas;
+        public int Piezas_Empaque;
+        public int Piezas_Recibidas;
+
+
+        public void Verificar_Pieza(Verificacion verificacion)
+        {
+            if ((verificacion.Hora >= 8) && (verificacion.Hora <= 18))
+            {
+                Console.WriteLine("Piezas listas para empezar Verificacion");
+            }
+            else
+            {
+                if (verificacion.Interruptor == "ON")
+                {
+                    verificacion.Apagado_Maquina(verificacion.Nombre);
+                }
+
+                Console.WriteLine("Horario NO Laboral, Maquina " + verificacion.Nombre + " esta apagada, las piezas no han podido ser recepcionadas por esta Maquina");
+            }
+        }
+        public string Enviar_a_Empaque(Verificacion verificacion)
+        {
+            if ((verificacion.Hora >= 8) && (verificacion.Hora <= 18))
+            {
+                if (verificacion.Interruptor == "OFF")
+                {
+                    verificacion.Encendido_Maquina(verificacion.Nombre);
+                }
+            }
+            else
+            {
+                if (verificacion.Interruptor == "ON")
+                {
+                    verificacion.Apagado_Maquina(verificacion.Nombre);
+                }
+                Console.WriteLine("Horario NO Laboral, Maquina " + verificacion.Nombre + " esta apagada, las piezas no han podido ser Verificadas por esta Maquina");
+            }
+            if (verificacion.Interruptor == "ON")
+            {
+                if (verificacion.Memoria + Piezas_Recibidas <= 100)
+                {
+                    verificacion.Piezas_Verificadas += verificacion.Piezas_Recibidas;
+                    verificacion.Piezas_Empaque = verificacion.Piezas_Verificadas;
+                    verificacion.Piezas_Verificadas -= verificacion.Piezas_Empaque;
+                    verificacion.Memoria += verificacion.Piezas_Empaque;
+                    if (verificacion.Memoria == 100)
+                    {
+                        verificacion.Reinicio_Maquina(verificacion.Nombre);
+                    }
+                    Console.WriteLine("Piezas enviadas a Empaque");
+                    return " ";
+                }
+                else
+                {
+                    verificacion.Piezas_Verificadas += verificacion.Piezas_Recibidas;
+                    verificacion.Piezas_Empaque = (100 - verificacion.Memoria);
+                    verificacion.Piezas_Verificadas -= verificacion.Piezas_Empaque;
+                    verificacion.Reinicio_Maquina(verificacion.Nombre);
+                    verificacion.Piezas_Empaque += verificacion.Piezas_Verificadas;
+                    verificacion.Memoria += verificacion.Piezas_Verificadas;
+                    verificacion.Piezas_Verificadas = 0;
+                    Console.WriteLine("Piezas enviadas a Empaque");
+                    return " ";
+                }
+            }
+            else
+            {
+                Console.WriteLine("Maquina " + verificacion.Nombre + " esta Apagada, ha sido imposible enviar las piezas a Empaquetar");
+                return " ";
+            }
+        }
+    }
+    public class Empaque: Computador
+    {
+        public int Piezas_Empaquetadas;
+        public int Piezas_Enviadas;
+
+        public void Empaquetar_Pieza(Empaque empaque)
+        {
+            if ((empaque.Hora >= 8) && (empaque.Hora <= 18))
+            {
+                Console.WriteLine("Piezas listas para empezar Empaquetamiento");
+            }
+            else
+            {
+                if (empaque.Interruptor == "ON")
+                {
+                    empaque.Apagado_Maquina(empaque.Nombre);
+                }
+
+                Console.WriteLine("Horario NO Laboral, Maquina " + empaque.Nombre + " esta apagada, las piezas no han podido ser recepcionadas por esta Maquina");
+            }
+        }
+
+        public string Enviar_Empaque(Empaque empaque)
+        {
+            if ((empaque.Hora >= 8) && (empaque.Hora <= 18))
+            {
+                if (empaque.Interruptor == "OFF")
+                {
+                    empaque.Encendido_Maquina(empaque.Nombre);
+                }
+            }
+            else
+            {
+                if (empaque.Interruptor == "ON")
+                {
+                    empaque.Apagado_Maquina(empaque.Nombre);
+                }
+                Console.WriteLine("Horario NO Laboral, Maquina " + empaque.Nombre + " esta apagada, las piezas no han podido ser Enviadas por esta Maquina");
+            }
+            if (empaque.Interruptor == "ON")
+            {
+                if (empaque.Memoria + empaque.Piezas_Enviadas <= 100)
+                {
+                    empaque.Piezas_Enviadas = empaque.Piezas_Empaquetadas;
+                    empaque.Memoria += empaque.Piezas_Enviadas;
+                    if (empaque.Memoria == 100)
+                    {
+                        empaque.Reinicio_Maquina(empaque.Nombre);
+                    }
+                    Console.WriteLine("Piezas Enviadas al Cliente!");
+                    return " ";
+                }
+                else
+                {
+                    empaque.Piezas_Enviadas = empaque.Piezas_Empaquetadas;
+                    empaque.Reinicio_Maquina(empaque.Nombre);
+                    Console.WriteLine("Piezas Enviadas al Cliente!");
+                    return " ";
+                }
+            }
+            else
+            {
+                Console.WriteLine("Maquina " + empaque.Nombre + " esta Apagada, ha sido imposible enviar las piezas al Cliente, espere al inicio de la siguiente jornada laboral");
                 return " ";
             }
         }
