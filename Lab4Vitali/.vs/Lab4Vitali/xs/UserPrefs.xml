@@ -2,8 +2,17 @@
   <MonoDevelop.Ide.ItemProperties.Lab4Vitali PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Lab4Vitali/Program.cs">
     <Files>
-      <File FileName="Lab4Vitali/Program.cs" Line="439" Column="1" />
+      <File FileName="Lab4Vitali/Program.cs" Line="291" Column="14" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Lab4Vitali" expanded="True">
+            <Node name="Lab4Vitali" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|anycpu" />
